@@ -1,35 +1,12 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group 'io.polyhx.lhgames'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
-
-task fatJar(type: Jar) {
-	manifest {
-        attributes \
-            'Implementation-Title': 'Gradle Jar File Example',  
-            'Implementation-Version': version,
-            'Main-Class': 'io.polyhx.lhgames.App'
-    }
-
-    baseName = project.name + '-all'
-
-    from {
-        configurations.runtimeClasspath.collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
-    }
-
-    exclude 'META-INF/MANIFEST.MF'
-    exclude 'META-INF/*.SF'
-    exclude 'META-INF/*.DSA'
-    exclude 'META-INF/*.RSA'
-
-    with jar
-}
 
 repositories {
     mavenCentral()
@@ -39,3 +16,5 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     implementation 'com.microsoft.signalr:signalr:1.0.0'
 }
+
+mainClassName = 'io.polyhx.lhgames.App'
