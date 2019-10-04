@@ -1,7 +1,5 @@
 package io.polyhx.lhgames.data;
 
-import com.sun.tools.javac.main.Option;
-
 public class Tile {
     private final Point fPosition;
     private final Team fOwner;
