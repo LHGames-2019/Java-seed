@@ -35,6 +35,7 @@ public class LHAPIService {
         }, String.class);
         fHubConnection.start().doOnComplete(() -> {
             System.out.println("lhapi: connection opened and handshake received");
+            fHubConnection.invoke(String.class,"Register", System.getenv("TEAM_ID"), System.getenv("GAME_ID"));
         });
     }
 }
