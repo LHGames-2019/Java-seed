@@ -10,6 +10,7 @@ import io.polyhx.lhgames.Bot;
 import io.polyhx.lhgames.data.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class GameServerService {
@@ -35,7 +36,7 @@ public class GameServerService {
         }
 
         fBot = new Bot();
-        fHubConnection = HubConnectionBuilder.create(App.LHAPI_URL + "/teamshub").build();
+        fHubConnection = HubConnectionBuilder.create(App.GAME_SERVER_URL + "/teamshub").build();
         fHubConnection.on("RequestExecuteTurn", this::onRequestExecuteTurn,
                 String[].class,
                 Integer.class,
@@ -45,11 +46,11 @@ public class GameServerService {
                 Integer.class
         );
         fHubConnection.on("ReceiveFinalMap", this::onReceiveFinalMap, String[].class);
-        fHubConnection.start().doOnComplete(this::onConnect);
-        fHubConnection.send("Register", System.getenv("TEAM_ID"));
+        fHubConnection.start().doOnComplete(this::onConnect).subscribe();
     }
 
     private void onConnect() {
+        fHubConnection.send("Register", System.getenv("TEAM_ID"));
         System.out.println("game server: connection opened and handshake received");
     }
 
@@ -92,7 +93,12 @@ public class GameServerService {
             ));
         }
 
-        GameInfo info = new GameInfo(currentMap, host, (Player[]) others.toArray());
+        Player[] players = new Player[others.size()];
+        for(int i = 0; i < others.size(); i++) {
+            players[i] = others.get(i);
+        }
+
+        GameInfo info = new GameInfo(currentMap, host, players);
 
         Direction next = fBot.getNextDirection(info);
         System.out.println(String.format("game server: next move is '%s'", next.toString()));

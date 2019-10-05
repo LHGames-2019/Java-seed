@@ -8,6 +8,6 @@ public class Bot {
         /***************************
          * PUT YOUR BOT LOGIC HERE *
          ***************************/
-        return Direction.UP;
+        return Direction.DOWN;
     }
 }
