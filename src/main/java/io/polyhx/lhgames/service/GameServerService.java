@@ -16,7 +16,6 @@ public class GameServerService {
     private static GameServerService INSTANCE;
 
     private HubConnection fHubConnection;
-    private String fTeamID;
     private Bot fBot;
 
     private GameServerService() { }
@@ -46,11 +45,7 @@ public class GameServerService {
                 Integer.class
         );
         fHubConnection.start().doOnComplete(this::onConnect);
-        fHubConnection.send("Register", fTeamID);
-    }
-
-    public void setTeamID(String teamID) {
-        fTeamID = teamID;
+        fHubConnection.send("Register", System.getenv("TEAM_ID"));
     }
 
     private void onConnect() {
