@@ -44,6 +44,7 @@ public class GameServerService {
                 Integer.class,
                 Integer.class
         );
+        fHubConnection.on("ReceiveFinalMap", this::onReceiveFinalMap, String[].class);
         fHubConnection.start().doOnComplete(this::onConnect);
         fHubConnection.send("Register", System.getenv("TEAM_ID"));
     }
@@ -96,5 +97,9 @@ public class GameServerService {
         Direction next = fBot.getNextDirection(info);
         System.out.println(String.format("game server: next move is '%s'", next.toString()));
         fHubConnection.send("ReturnExecuteTurn", next.getValue());
+    }
+
+    private void onReceiveFinalMap(String[] map) {
+        fHubConnection.stop();
     }
 }

@@ -29,9 +29,6 @@ public class LHAPIService {
         }
 
         fHubConnection = HubConnectionBuilder.create(App.LHAPI_URL + "/teamshub").build();
-        /*fHubConnection.on("AssignTeamId", (teamID) -> {
-           GameServerService.getInstance().setTeamID(teamID);
-        }, String.class);*/
         fHubConnection.on("AssignGameServerUriToGameId", (gameserverUri) -> {
             App.GAME_SERVER_URL = gameserverUri;
             GameServerService.getInstance().start();
